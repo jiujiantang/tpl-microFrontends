@@ -1,0 +1,20 @@
+{
+  "name": "micro-frontends",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "mf_ajax_router": "concurrently --names \"nginx  ,decide ,inspire\" \"node nginx.js mf_ajax_router/webserver/nginx.conf\" \"mfserve --listen 3001 mf_ajax_router/team-decide\" \"mfserve --listen 3002 mf_ajax_router/team-inspire\" \"wait-on http://localhost:3000/product/porsche && opener http://localhost:3000/product/porsche\"",
+    "mf_web_component": "concurrently --names \"app-shell,decide   ,inspire  ,checkout \" \"mfserve --listen 3000 --single mf_web_component/app-shell\" \"mfserve --listen 3001 mf_web_component/team-decide\" \"mfserve --listen 3002 mf_web_component/team-inspire\" \"mfserve --listen 3003 mf_web_component/team-checkout\" \"wait-on http://localhost:3000 && opener http://localhost:3000\"",
+    "mf_single_spa": "concurrently --names \"app-shell,decide   ,inspire  ,checkout \" \"mfserve --listen 3000 --single mf_single_spa/app-shell\" \"mfserve --listen 3001 --cors mf_single_spa/team-decide\" \"mfserve --listen 3002 --cors mf_single_spa/team-inspire\" \"mfserve --listen 3003 --cors mf_single_spa/team-checkout\" \"wait-on http://localhost:3000 && opener http://localhost:3000\"",
+    "mf_shared_vendor": "concurrently --names \"shared-vendor,decide       ,inspire      ,checkout     \" \"mfserve --listen 3000 mf_shared_vendor/shared-vendor\" \"mfserve --listen 3001 --single mf_shared_vendor/team-decide\" \"mfserve --listen 3002 --cors mf_shared_vendor/team-inspire\" \"mfserve --listen 3003 mf_shared_vendor/team-checkout\" \"wait-on http://localhost:3001/product/fendt && opener http://localhost:3001/product/fendt\""
+    },
+  "author": "L",
+  "license": "ISC",
+  "dependencies": {
+    "@microfrontends/serve": "^11.3.0",
+    "concurrently": "^6.0.2",
+    "opener": "^1.5.2",
+    "wait-on": "^5.3.0"
+  }
+}
